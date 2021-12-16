@@ -1,32 +1,55 @@
 ---
-title: Setup
+title: Setup conda environment and creating Jupyter Kernel using your SMU ManeFrame account
 ---
 
-### For Window and MacOS users:
+### Please follow this guideline to create a new conda environment and install scikit-learn package.
 
-Users need to download the RStudio Desktop (Free version) here:
-{https://www.rstudio.com/products/rstudio/}
+Open any terminal:
+  - **MobaXTerm** for Windows OS
+  - **Terminal** for MacOS & Linux platform
+  - **M2 Shell Access** in Open OnDemand (https://hpc.smu.edu/pun/sys/dashboard/)
 
-![image](https://user-images.githubusercontent.com/43855029/114041384-83beec80-9852-11eb-8d7d-b111fc072a43.png)
+### Below is the setup using M2 Shell Access:
 
-### Once installed, open RStudio
-You can change the layout (theme) by going to: Tools\Global Option\Appearance. Here I use theme `Cobalt`
+First, login to Open OnDemand and open Shell Access 
+![image](https://user-images.githubusercontent.com/43855029/146410172-77d7531f-9673-48e7-8b3b-6e384a0893b2.png)
 
-The general layout of RStudio:
-![image](https://user-images.githubusercontent.com/43855029/114042725-ad2c4800-9853-11eb-87c8-a49797e33a35.png)
+Request a compute node and load python library
 
-### To execute the line (chunk) of code in `Script`
-Move the cursor to the line of code (or select the whole chunk of code) 
-- Click on the `Run` button: ![image](https://user-images.githubusercontent.com/43855029/114042905-d8169c00-9853-11eb-9e65-1f51ca472bd4.png)
-- Or: use `Ctrl+Enter`
+```bash
+$ srun -p htc --mem=6G --pty $SHELL
+$ module load python/3
+```
 
-### To execute the whole `Script`
-Click on `Source` button: ![image](https://user-images.githubusercontent.com/43855029/114043237-1c09a100-9854-11eb-938c-1fc987ae0c96.png)
+Create a conda environment named MyPEnv with python version 3.6
 
-### To install additional package from CRAN or files:
-- Click on `Tools\Install Packages`:
+```bash
+$ conda create -y -n MyPEnv python=3.7
+```
 
-![image](https://user-images.githubusercontent.com/43855029/114043981-c5509700-9854-11eb-94db-4d10466e3b2e.png)
+Activate the conda environment and install matplotlib and any other needed packages.
 
-Or to install package in Command line (mostly for Linux environment, i.e. Palmetto)
-- Type in the console: `install.packages("package_name")`
+```bash
+[tuev@b136 ~]$ source activate myPenv
+(myPenv) [tuev@b136 ~]$ conda install numpy pandas scikit-learn seaborn matplotlib -y
+```
+
+You can also create your own Jupyter Hub kernel:
+
+```bash
+(myPenv) [tuev@b136 ~]$ conda install jupyter
+(myPenv) [tuev@b136 ~]$ python -m ipykernel install --user --name myPenv --display-name "My 1st conda env"
+```
+
+=> Note: while using **myPenv** conda environment, if we are missing anything, we can always come back and update using **pip install**
+or **conda install** method.
+
+- Back to Open OnDemand, request for Jupyter Notebook instance:
+![image](https://user-images.githubusercontent.com/43855029/146412276-f9dd833f-2436-43cd-80b9-93b578cda2df.png)
+
+You will see the new kernel created:
+
+![image](https://user-images.githubusercontent.com/43855029/146412731-58cdc03b-158c-48b8-aee9-7f1f1e842efb.png)
+
+
+{% include links.md %}
